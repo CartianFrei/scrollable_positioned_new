@@ -18,8 +18,7 @@ A `ScrollablePositionedList` can be created with:
 final ItemScrollController itemScrollController = ItemScrollController();
 final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create();
 
-ScrollablePositionedList.builder
-(
+ScrollablePositionedList.builder(
 itemCount: 500,
 itemBuilder: (context, index) => Text('Item $index'),
 itemScrollController: itemScrollController,
@@ -30,40 +29,21 @@ itemPositionsListener: itemPositionsListener,
 One then can scroll to a particular item with:
 
 ```dart
-itemScrollController.scrollTo
-(
-index: 150,
-duration: Duration(seconds: 2)
-,
-curve
-:
-Curves
-.
-easeInOutCubic
-);
+itemScrollController.scrollTo(index: 150,
+duration: Duration(seconds: 2),
+curve:Curves.easeInOutCubic);
 ```
 
 or jump to a particular item with:
 
 ```dart
-itemScrollController.jumpTo
-(
-index
-:
-150
-);
+itemScrollController.jumpTo(index:150);
 ```
 
 One can monitor what items are visible on screen with:
 
 ```dart
-itemPositionsListener.itemPositions.addListener
-(
-(
-)
-=>
-...
-);
+itemPositionsListener.itemPositions.addListener(()=>...);
 ```
 
 A full example can be found in the example folder.
