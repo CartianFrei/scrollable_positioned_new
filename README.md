@@ -1,17 +1,73 @@
-# Flutter widgets
+# scrollable_positioned_list
 
-[![Build Status](https://travis-ci.org/google/flutter.widgets.svg?branch=master)](https://travis-ci.org/google/flutter.widgets)
+A flutter list that allows scrolling to a specific item in the list.
 
-This repository contains the source code for various Flutter widgets that are
-developed by Google but not by the core Flutter team.
+Also allows determining what items are currently visible.
 
-## Issues
+## Usage
 
-Please file any issues, bugs, or feature requests in the [this
-repo](https://github.com/google/flutter.widgets/issues/new).
+A `ScrollablePositionedList` works much like the builder version of `ListView`
+except that the list can be scrolled or jumped to a specific item.
 
-## Contributing
+### Example
 
-If you wish to contribute a change to any of the existing widgets in this repo,
-please review our [contribution guide](https://github.com/google/flutter.widgets/blob/master/CONTRIBUTING.md),
-and send a [pull request](https://github.com/google/flutter.widgets/pulls).
+A `ScrollablePositionedList` can be created with:
+
+```dart
+
+final ItemScrollController itemScrollController = ItemScrollController();
+final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create();
+
+ScrollablePositionedList.builder
+(
+itemCount: 500,
+itemBuilder: (context, index) => Text('Item $index'),
+itemScrollController: itemScrollController,
+itemPositionsListener: itemPositionsListener,
+);
+```
+
+One then can scroll to a particular item with:
+
+```dart
+itemScrollController.scrollTo
+(
+index: 150,
+duration: Duration(seconds: 2)
+,
+curve
+:
+Curves
+.
+easeInOutCubic
+);
+```
+
+or jump to a particular item with:
+
+```dart
+itemScrollController.jumpTo
+(
+index
+:
+150
+);
+```
+
+One can monitor what items are visible on screen with:
+
+```dart
+itemPositionsListener.itemPositions.addListener
+(
+(
+)
+=>
+...
+);
+```
+
+A full example can be found in the example folder.
+
+--------------------------------------------------------------------------------
+
+This is not an officially supported Google product.
