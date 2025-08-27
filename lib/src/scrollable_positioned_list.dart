@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/scheduler.dart';
@@ -49,7 +48,7 @@ class ScrollablePositionedList extends StatefulWidget {
     this.addSemanticIndexes = true,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
-    this.minCacheExtent,
+    this.cacheExtent,
   })  : itemPositionsNotifier = itemPositionsListener as ItemPositionsNotifier?,
         separatorBuilder = null;
 
@@ -72,7 +71,7 @@ class ScrollablePositionedList extends StatefulWidget {
     this.addSemanticIndexes = true,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
-    this.minCacheExtent,
+    this.cacheExtent,
   })  : assert(separatorBuilder != null),
         itemPositionsNotifier = itemPositionsListener as ItemPositionsNotifier?;
 
@@ -152,7 +151,7 @@ class ScrollablePositionedList extends StatefulWidget {
   /// scrolls, so using the [ScrollController.scrollTo] method may result
   /// in builds of widgets that would otherwise already be built in the
   /// cache extent.
-  final double? minCacheExtent;
+  final double? cacheExtent;
 
   @override
   State<StatefulWidget> createState() => _ScrollablePositionedListState();
@@ -332,7 +331,6 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final cacheExtent = _cacheExtent(constraints);
         return GestureDetector(
           onPanDown: (_) => _stopScroll(canceled: true),
           excludeFromSemantics: true,
@@ -354,7 +352,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
                       itemPositionsNotifier: primary.itemPositionsNotifier,
                       scrollDirection: widget.scrollDirection,
                       reverse: widget.reverse,
-                      cacheExtent: cacheExtent,
+                      cacheExtent: widget.cacheExtent,
                       alignment: primary.alignment,
                       physics: widget.physics,
                       addSemanticIndexes: widget.addSemanticIndexes,
@@ -383,7 +381,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
                         controller: secondary.scrollController,
                         scrollDirection: widget.scrollDirection,
                         reverse: widget.reverse,
-                        cacheExtent: cacheExtent,
+                        cacheExtent: widget.cacheExtent,
                         alignment: secondary.alignment,
                         physics: widget.physics,
                         addSemanticIndexes: widget.addSemanticIndexes,
@@ -401,11 +399,6 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
       },
     );
   }
-
-  double _cacheExtent(BoxConstraints constraints) => max(
-        constraints.maxHeight * _screenScrollCount,
-        widget.minCacheExtent ?? 0,
-      );
 
   void _jumpTo({required int index, required double alignment}) {
     _stopScroll(canceled: true);
