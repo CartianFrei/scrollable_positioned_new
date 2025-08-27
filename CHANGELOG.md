@@ -1,3 +1,6 @@
+# 1.0.1
+  * Replaced unnecessary minCacheExtent with cacheExtent
+
 # 1.0.0
   * Updated all dependencies for best optimizations.
 
