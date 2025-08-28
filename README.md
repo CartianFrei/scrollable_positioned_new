@@ -46,8 +46,6 @@ One can monitor what items are visible on screen with:
 itemPositionsListener.itemPositions.addListener(()=>...);
 ```
 
-A full example can be found in the example folder.
-
 --------------------------------------------------------------------------------
 
 This is not an officially supported Google product.
